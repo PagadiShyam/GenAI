@@ -32,7 +32,7 @@ def main():
         chunks = text_splitter.split_text(text)
       
         # create embeddings using Hugging Face model
-        embeddings = HuggingFaceEmbeddings(model_name="distilbert-base-uncased")
+        embeddings = HuggingFaceEmbeddings(model_name="impira/layoutlm-document-qa")
         knowledge_base = FAISS.from_texts(chunks, embeddings)
       
         # show user input
@@ -41,8 +41,8 @@ def main():
             docs = knowledge_base.similarity_search(user_question)
             
             # Use Hugging Face Falcon model for question answering
-            falcon_model = "deepset/roberta-base-squad2"  # Replace with your desired Hugging Face Falcon model
-            qa_pipeline = pipeline("question-answering", model=falcon_model, tokenizer=falcon_model)
+            falcon_model = "impira/layoutlm-document-qa"  # Replace with your desired Hugging Face Falcon model
+            qa_pipeline = pipeline("document-question-answering", model=falcon_model, tokenizer=falcon_model)
             
             response = []
             with get_openai_callback() as cb:
